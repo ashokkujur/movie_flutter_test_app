@@ -10,16 +10,16 @@ import '../response_error_handler.dart';
 
 class MovielistCubit extends Cubit<MovieState> {
   MovielistCubit() : super(MovieState(response: ApiResponse(Status.INIT, [])));
+  List<MovieModel> movies = [];
+
   getMovies() async {
     emit(state.copyWith(response: ApiResponse(Status.LOADING, [])));
     try {
       dynamic response = await MovieRepository().getMovie();
-      emit(state.copyWith(
-          response: ApiResponse(
-              Status.COMPLETED,
-              response.data["results"].map<MovieModel>((json) {
-                return MovieModel.fromJson(json);
-              }).toList())));
+      movies = response.data["results"].map<MovieModel>((json) {
+        return MovieModel.fromJson(json);
+      }).toList();
+      emit(state.copyWith(response: ApiResponse(Status.COMPLETED, movies)));
     } catch (e) {
       emit(state.copyWith(
           response: ApiResponse(
@@ -27,6 +27,21 @@ class MovielistCubit extends Cubit<MovieState> {
               ResponseErrorHandler().errorMessage(
                   (e as DioError).response!.statusCode!,
                   message: e.response!.data["message"]))));
+    }
+  }
+
+  filter(String filter) {
+    if (filter.isNotEmpty) {
+      List<MovieModel> moviesFilter = movies
+          .where((element) =>
+              element.title.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+      if (moviesFilter.isNotEmpty) {
+        emit(state.copyWith(
+            response: ApiResponse(Status.COMPLETED, moviesFilter)));
+      }
+    } else {
+      emit(state.copyWith(response: ApiResponse(Status.COMPLETED, movies)));
     }
   }
 }

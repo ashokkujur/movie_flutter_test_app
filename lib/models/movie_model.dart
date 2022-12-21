@@ -1,7 +1,7 @@
 class MovieModel {
   bool adult;
   String backdropPath;
-  List<int> genreIds;
+  List<dynamic> genreIds;
   int id;
   String originalLanguage;
   String originalTitle;
@@ -39,7 +39,7 @@ class MovieModel {
         overview: jsonData["overview"] ?? "",
         popularity: jsonData["popularity"] ?? 0.0,
         posterPath: jsonData["poster_path"] ?? "",
-        releaseDate: jsonData["adult"] ?? "",
+        releaseDate: jsonData["release_date"] ?? "",
         title: jsonData["title"] ?? "",
         video: jsonData["video"] ?? false,
         voteAverage: jsonData["vote_average"] ?? 0.0,

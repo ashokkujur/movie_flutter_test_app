@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_flutter_test_app/bloc/movie/movie_bloc.dart';
 import 'package:movie_flutter_test_app/routes/app_route_names.dart';
 import 'package:movie_flutter_test_app/routes/app_router.dart';
 
@@ -12,7 +13,6 @@ void main() {
 }
 
 class AppProvider extends MaterialApp {
-  /// {@macro ticker_app}
   AppProvider({super.key})
       : super(
             debugShowCheckedModeBanner: false,
@@ -20,6 +20,9 @@ class AppProvider extends MaterialApp {
                 providers: [
                   BlocProvider<ConnectionCubit>(
                     create: (BuildContext context) => ConnectionCubit(),
+                  ),
+                  BlocProvider<MovielistCubit>(
+                    create: (BuildContext context) => MovielistCubit(),
                   ),
                 ],
                 child: BlocConsumer<ConnectionCubit,
