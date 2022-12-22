@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:movie_flutter_test_app/bloc/movie/movie_bloc.dart';
 import 'package:movie_flutter_test_app/models/movie_model.dart';
 import 'package:movie_flutter_test_app/network/status.dart';
@@ -170,7 +171,7 @@ class HomeState extends State<HomeScreen> {
                                                       height: 5.0,
                                                     ),
                                                     Text(
-                                                      "Release date: ${(movieState.response.data[index] as MovieModel).releaseDate}",
+                                                      "Released date: ${DateFormat.yMMMd().format(DateFormat("yyyy-MM-dd").parse((movieState.response.data[index] as MovieModel).releaseDate))}",
                                                       style: AppTextStyle
                                                           .size14Colorprimary,
                                                     ),
