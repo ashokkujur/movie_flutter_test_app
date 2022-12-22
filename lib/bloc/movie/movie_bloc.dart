@@ -19,6 +19,7 @@ class MovielistCubit extends Cubit<MovieState> {
       movies = response.data["results"].map<MovieModel>((json) {
         return MovieModel.fromJson(json);
       }).toList();
+
       emit(state.copyWith(response: ApiResponse(Status.COMPLETED, movies)));
     } catch (e) {
       emit(state.copyWith(
